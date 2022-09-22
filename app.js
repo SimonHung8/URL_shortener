@@ -1,6 +1,9 @@
 // require packages used in the project
 const express = require('express')
 
+// database connection
+require('./config/mongoose')
+
 const app = express()
 const port = 3000
 
