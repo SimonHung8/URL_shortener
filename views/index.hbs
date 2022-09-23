@@ -1,4 +1,10 @@
 <form action="/" method="post">
-    <input type="url" name="url" placeholder="Input URL here" required>
-    <button class="btn-shorten" type="submit">Shorten</button>
+{{!-- 防止使用者沒輸入資料或輸入資料非url時送出表單 --}}
+  <input type="url" name="url" placeholder="Input URL here" required>
+  <button class="btn-shorten" type="submit">Shorten</button>
 </form>
+
+{{#if shortURL}}
+<h2>Success! Please use this link:</h2>
+<a href="">http://localhost:3000/{{shortURL}}</a>
+{{/if}}

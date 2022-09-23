@@ -5,6 +5,9 @@ const exphbs = require('express-handlebars')
 // database connection
 require('./config/mongoose')
 
+const URL = require('./models/URL')
+const shortenURL = require('./utilities/shortenURL')
+
 const app = express()
 const port = 3000
 
@@ -20,6 +23,20 @@ app.use(express.static('public'))
 
 // setting routes
 app.get('/', (req, res) => res.render('index'))
+app.post('/', (req, res) => {
+  const originalURL = req.body.url
+  if(!req.body.url) return res.redirect('/')
+  const shortURL = shortenURL()
+  URL.findOne({ originalURL })
+    .then(url => {
+      // 若已經建立過短網址，回傳原本的短網址，若尚未建立，則回傳新的短網址
+      return url ? url : URL.create({ originalURL, shortURL })
+    })
+    .then(url => {
+      res.render('index', { shortURL: url.shortURL })
+    })
+    .catch(err => console.log(err))
+})
 
 // start and listen on the server
 app.listen(port, () => console.log(`App is running on http://localhost:${port}`))
