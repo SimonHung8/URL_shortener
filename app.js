@@ -8,6 +8,9 @@ require('./config/mongoose')
 const app = express()
 const port = 3000
 
+// setting body-parser
+app.use(express.urlencoded({ extended: true }))
+
 // setting template engine
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: 'hbs' }))
 app.set('view engine', 'hbs')
