@@ -33,7 +33,16 @@ app.post('/', (req, res) => {
       return url ? url : URL.create({ originalURL, shortURL })
     })
     .then(url => {
-      res.render('index', { shortURL: url.shortURL })
+      res.render('index', { shortURL: url.shortURL, originalURL: url.originalURL })
+    })
+    .catch(err => console.log(err))
+})
+app.get('/:shortURL', (req, res) => {
+  const shortURL = req.params.shortURL
+  URL.findOne({ shortURL })
+    .then(url => {
+      if(!url) return res.render('cannotFind', {shortURL})
+      res.redirect(url.originalURL)
     })
     .catch(err => console.log(err))
 })

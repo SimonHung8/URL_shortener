@@ -1,10 +1,22 @@
 <form action="/" method="post">
-{{!-- 防止使用者沒輸入資料或輸入資料非url時送出表單 --}}
+  {{!-- 防止使用者沒輸入資料或輸入資料非url時送出表單 --}}
   <input type="url" name="url" placeholder="Input URL here" required>
   <button class="btn-shorten" type="submit">Shorten</button>
 </form>
 
 {{#if shortURL}}
 <h2>Success! Please use this link:</h2>
-<a href="">http://localhost:3000/{{shortURL}}</a>
+<a href="{{originalURL}}" target="_blank" id="result-link">http://localhost:3000/{{shortURL}}</a>
+<button class="btn-copy">Copy URL</button>
+
+<script>
+  const btnCopy = document.querySelector('.btn-copy')
+  btnCopy.addEventListener('click', event => {
+    if (!event.target.matches('.btn-copy')) return
+    const resultLink = document.querySelector('#result-link')
+    navigator.clipboard.writeText(resultLink.textContent)
+    .then(() => alert(`Copied! ${resultLink.textContent}`))
+    .catch(err => console.log(err))
+  })
+</script>
 {{/if}}

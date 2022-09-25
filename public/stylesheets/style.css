@@ -46,3 +46,11 @@ input {
   color: #00a1ff;
   background-color: white;
 }
+
+.btn-copy {
+  margin-top: 10px;
+  border: 1px solid #936116;
+  padding: 5px;
+  color: #936116;
+  background-color: white;
+}
