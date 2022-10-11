@@ -1,6 +1,7 @@
 // require packages used in the project
 const express = require('express')
 const exphbs = require('express-handlebars')
+const { body, validationResult } = require('express-validator')
 
 // database connection
 require('./config/mongoose')
@@ -23,7 +24,13 @@ app.use(express.static('public'))
 
 // setting routes
 app.get('/', (req, res) => res.render('index'))
-app.post('/', (req, res) => {
+app.post('/', body('url').isURL(), (req, res) => {
+  // 使用express-validator再次驗證前端送過來的資料
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.render('error', {invalid: true})
+  }
+
   const originalURL = req.body.url
   if(!req.body.url) return res.redirect('/')
   const shortURL = shortenURL()

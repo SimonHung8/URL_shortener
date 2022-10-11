@@ -1,4 +1,8 @@
 
   <h2>操作失敗...</h2>
+  {{#if invalid}}
+  <h3>invalid value</h3>
+  {{else}}
   <h3>資料庫好像出問題了！ 快去檢查一下吧！</h3>
+  {{/if}}
   <a href="/">Back to Shortener</a>
