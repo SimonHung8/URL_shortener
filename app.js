@@ -35,7 +35,10 @@ app.post('/', (req, res) => {
     .then(url => {
       res.render('index', { shortURL: url.shortURL, originalURL: url.originalURL })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err)
+      res.render('error')
+    })
 })
 app.get('/:shortURL', (req, res) => {
   const shortURL = req.params.shortURL
@@ -44,7 +47,10 @@ app.get('/:shortURL', (req, res) => {
       if(!url) return res.render('cannotFind', {shortURL})
       res.redirect(url.originalURL)
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err)
+      res.render('error')
+    })
 })
 
 // start and listen on the server

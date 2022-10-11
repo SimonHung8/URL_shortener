@@ -54,3 +54,7 @@ input {
   color: #936116;
   background-color: white;
 }
+
+button:hover {
+  cursor: pointer
+}
