@@ -14,14 +14,20 @@ router.post('/', body('url').isURL(), (req, res) => {
 
   const originalURL = req.body.url
   if (!req.body.url) return res.redirect('/')
-  const shortURL = shortenURL()
-  URL.findOne({ originalURL })
-    .then(url => {
-      // 若已經建立過短網址，回傳原本的短網址，若尚未建立，則回傳新的短網址
-      return url ? url : URL.create({ originalURL, shortURL })
+  let shortURL = shortenURL()
+  URL.find()
+    .then(urls => {
+      const existedOriginal = urls.find(url => url.originalURL === originalURL)
+      if (existedOriginal) {
+        return existedOriginal
+      }
+      while (urls.some(url => url.shortURL === shortURL)) {
+        shortURL = shortenURL()
+      }
+      return URL.create({ originalURL, shortURL })
     })
     .then(url => {
-      res.render('index', { shortURL: url.shortURL, originalURL: url.originalURL })
+      return res.render('index', { shortURL: url.shortURL, originalURL: url.originalURL })
     })
     .catch(err => {
       console.log(err)
