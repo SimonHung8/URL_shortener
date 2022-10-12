@@ -14,13 +14,13 @@ router.post('/', body('url').isURL(), (req, res) => {
 
   const originalURL = req.body.url
   if (!req.body.url) return res.redirect('/')
-  let shortURL = shortenURL()
   URL.find()
     .then(urls => {
       const existedOriginal = urls.find(url => url.originalURL === originalURL)
       if (existedOriginal) {
         return existedOriginal
       }
+      let shortURL = shortenURL()
       while (urls.some(url => url.shortURL === shortURL)) {
         shortURL = shortenURL()
       }
